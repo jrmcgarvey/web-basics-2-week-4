@@ -7,6 +7,19 @@
 
 //resolve // QUESTION 1 here
 
+const q1 = document.getElementById('a-1');
+const q1a = document.createElement('div');
+q1a.className = 'square';
+q1.appendChild(q1a);
+q1a.textContent = 'x';
+q1a.addEventListener('click',() => {
+  if (q1a.textContent === 'x') {
+    q1a.textContent = 'o';
+  } else {
+    q1a.textContent = 'x';
+  }
+});
+
 
 
 
@@ -18,7 +31,22 @@
 // append the button as a child of the element with the 'id = a-2'
 const colors = [ 'red' , 'white', 'black' , 'green' , 'orange'];
 
-
+const q2 = document.getElementById('a-2');
+const q2aSelect = document.createElement('select');
+colors.forEach((c) => {
+  let opt = document.createElement('option');
+  opt.text = c;
+  q2aSelect.add(opt);
+});
+q2.appendChild(q2aSelect);
+const q2aButton = document.createElement('button');
+q2aButton.textContent = 'remove option';
+q2.appendChild(q2aButton);
+q2aButton.addEventListener('click',() => {
+  if (q2aSelect.selectedIndex>=0) {
+    q2aSelect.remove(q2aSelect.options.selectedIndex);
+  }
+});
 
 
 //resolve // QUESTION 2 here
@@ -36,16 +64,55 @@ const colors = [ 'red' , 'white', 'black' , 'green' , 'orange'];
 
 
 const calculate_sphere = () =>{
-
+   const radius = document.getElementById('radius');
+   const volume = document.getElementById('volume');
+   const area = document.getElementById('area');
+   const currentRadius = parseFloat(radius.value);
+   if (!isNaN(currentRadius)) {
+     console.log("currentRadius",currentRadius,radius.value);
+     const currentVolume = Math.PI * 4 * (currentRadius ** 3) / 3;
+     const currentArea = Math.PI * 4 * (currentRadius ** 2);
+     volume.value = currentVolume;
+     area.value = currentArea;
+   }
  }
 
-window.onload = document.getElementById('MyForm').onsubmit = calculate_sphere; // this execute the volume_sphere function each time the calculate (submit) button is clicked
+window.onload = document.getElementById('submit').onclick = calculate_sphere; // this execute the volume_sphere function each time the calculate (submit) button is clicked
 
 
 
 
 //------------------------Question 4 ---------------------------
-//Now in this exercise we want you to create 3 buttons, each with a click action that will hide the respective question's answer above. So if you click the "Hide Question 1" button it will hide from the DOM the answer to your first exercise. If you click it again it will show the answer. 
+//Now in this exercise we want you to create 3 buttons, each with a click action that will hide the respective question's answer above. So if you click the "Hide Question 1" button it will hide from the DOM the answer to your first exercise. If you click it again it will show the answer.
 
 
 //resolve // QUESTION 4 here
+
+const q3 = document.getElementById('a-3')
+const q4 = document.getElementById('a-4');
+const hideButtons=[];
+for (let i=0;i<3;i++) {
+  hideButtons.push(document.createElement('button'));
+  hideButtons[i].textContent = `Hide Answer ${i}`
+  q4.appendChild(hideButtons[i]);
+}
+
+q4.addEventListener('click',(e) => {
+  for (let i=0;i<3;i++) {
+    if (e.target === hideButtons[i]) {
+      let toHide = q1;
+      if (i === 1) {
+        toHide = q2;
+      } else if (i==2) {
+        toHide = q3;
+      }
+      if (toHide.style.display != 'none') {
+        toHide.style.display = 'none';
+        e.target.textContent = `Show Answer ${i}`
+      } else {
+        toHide.style.display = 'block';
+        e.target.textContent = `Hide Answer ${i}`
+      }
+    }
+  }
+});
